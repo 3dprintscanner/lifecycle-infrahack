@@ -5,6 +5,7 @@ class OverviewsController < ApplicationController
   # GET /overviews.json
   def index
     @data = Consumption.all
+    @lifecycleConsumption = Consumption.all.map {|itm| { "consumption" => rand(itm.consumption-15..itm.consumption+15)}}
     @demand = DemandPrediction.all
   end
 

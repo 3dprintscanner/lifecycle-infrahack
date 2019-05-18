@@ -34,7 +34,7 @@ class ConsumptionsController < ApplicationController
         format.html { render :new }
         format.json { render json: @consumption.errors, status: :unprocessable_entity }
       end
-    end
+    end 
   end
 
   # PATCH/PUT /consumptions/1

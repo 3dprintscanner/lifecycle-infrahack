@@ -8,7 +8,7 @@ class Api::V1::ChargedataController < ActionController::API
         params.permit(preferences: {})
         sent_data = data_params
         puts "payload is #{sent_data}"
-        render :json => sent_data
+        render :json => sent_data   
     end
 
 
