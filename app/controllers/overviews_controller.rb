@@ -7,6 +7,7 @@ class OverviewsController < ApplicationController
     @data = Consumption.all
     @lifecycleConsumption = Consumption.all.map {|itm| { "consumption" => rand(itm.consumption-15..itm.consumption+15)}}
     @demand = DemandPrediction.all
+    @apidata = Backend.call_backend_from_db
   end
 
   # GET /overviews/1

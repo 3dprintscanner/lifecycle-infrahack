@@ -4,7 +4,7 @@
 <div class="application_container">
     <div class="container-fluid">
         <div class="row">
-            <h2> Predicted Demand for the next 24 hours</h2>
+            <h2>Predicted Demand for the next 24 hours</h2>
         </div>
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -45,6 +45,13 @@
 </div>
 
 <script>
+
+var configureHover = function(chart){
+
+}
+var apiData = <%= raw @apidata.to_json%>;
+var charging = apiData.chargingProfiles[0];
+var apiDemand = apiData.totalDemand;
 var data = <%= raw @data.to_json %>;
 var demandData = <%= raw @demand.to_json %>;
 var lifeCycleData = <%= raw @lifecycleConsumption.to_json %>;
@@ -56,7 +63,8 @@ var demandDataPoints = demandData.map(dt => Number(dt.value)).filter((i,idx) => 
 var consumeChart;
 var demandChart;
 var chargeChart;
-createLineChart2('consumeChart', xAxis, dataPoints, lifeData, (chart) => consumeChart = chart);
+createLineChart2('consumeChart', new Array(charging.length), charging, apiDemand, (chart) => function(){consumeChart = chart;
+ configureHover(chart);}());
 createDoughnutChart('chargeChart', 35,65, (chart) => chargeChart = chart);
 
 </script>
