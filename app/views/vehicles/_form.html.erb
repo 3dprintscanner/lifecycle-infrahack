@@ -18,7 +18,7 @@
 
   <div class="field">
     <%= form.label :owner_id %>
-    <%= form.text_field :owner_id, id: :vehicle_owner_id %>
+    <%= form.collection_select :owner_id, Owner.all ,:id, :name %>
   </div>
 
   <div class="field">

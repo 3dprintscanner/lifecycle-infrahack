@@ -12,5 +12,6 @@
  *
  *= require_tree .
  *= require_self
- *= require bootstrap/dist/css/bootstrap.css    
+ *= require bootstrap/scss/bootstrap.scss
+ *= require theme.scss
  */

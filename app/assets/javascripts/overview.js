@@ -1,4 +1,4 @@
-var createDoughnutChart = function(identifier, charging, discharging, callback){
+var createDoughnutChart = function(identifier, charging, discharging, callback, tooltipCallBack){
     
     var ctx = document.getElementById(identifier).getContext('2d');
     var myDoughnutChart = new Chart(ctx, {
@@ -26,7 +26,23 @@ var createDoughnutChart = function(identifier, charging, discharging, callback){
         },
         options: {
             circumference: Math.PI,
-            rotation: Math.PI
+            rotation: Math.PI,
+            tooltips: {
+                enabled: true,
+                mode: 'single',
+                callbacks: {
+                    label: function(tooltipItems, data) {
+                        if(typeof(tooltipCallBack)== 'function'){
+                            tooltipCallBack(data);
+                        }
+                        return tooltipItems.yLabel  ;
+                    }
+                }
+            },
+            title: {
+                display: true,
+                text: "Ratio of Charging to Discharging Vehicles"
+            }
         }
     });
     if(typeof(callback) !== 'function') return;
@@ -63,13 +79,13 @@ var createLineChart2 = function(identifier, xAxis, values, values2, callback){
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: false
                     }
                 }]
             },
             title: {
                 display: true,
-                text: "Real Time Demand Chart"
+                text: "Real vs ameliorated demand chart"
             }
         }
     });
