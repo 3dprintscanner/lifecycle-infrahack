@@ -17,6 +17,8 @@ module Backend
             uri = URI.parse('http://127.0.0.1:5000/api/GetChargingProfile')
             req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
             req.body = tocall.to_json
+            File.open('request2.txt', 'w') { |file| file.write(tocall.to_json) }    
+
             res = Net::HTTP.start(uri.hostname, uri.port) do |http|
                 http.request(req)
             end
@@ -25,22 +27,23 @@ module Backend
         
         def self.call_backend_from_db
             # call = build_call
-            reducedVehicleValues = Vehicle.last(5).inject ([]) {|seed, veh| seed.push veh.consumptions.first(5).map {|x| x.consumption.to_i}}
+            reducedVehicleValues = Vehicle.last(5).inject ([]) {|seed, veh| seed.push veh.consumptions.first(20).map {|x| x.consumption.to_i}}
             vehiclevalues = Vehicle.second.consumptions.first(5).map {|x| x.consumption.to_i}
             tocall = {
-                pricePredictions: PricePrediction.first(5).map {|x| x.price.round},
-                demandPredictions: DemandPrediction.first(5).map {|x| x.value.round},
-                maxVehicleChargingRates: [25, 25, 25, 25,25],
-                maxVehicleDischargingRates: [2,2,2,2,2],
-                maxVehicleChargeCapacities: [15,15,15,15,15],
-                journeyInformation: reducedVehicleValues,
-                initialVehicleCharge:reducedVehicleValues.map{|x| x.inject(0){|sum, x| sum + x} }
+                pricePredictions:  PricePrediction.first(20).map {|x| x.price.round},
+                demandPredictions: DemandPrediction.first(20).map {|x| x.value.round},
+                maxVehicleChargingRates: [25],
+                maxVehicleDischargingRates: [2],
+                maxVehicleChargeCapacities: [15],
+                journeyInformation: [reducedVehicleValues.first],
+                initialVehicleCharge:[reducedVehicleValues.map{|x| x.inject(0){|sum, x| sum + x} }.first]
             }
             puts tocall
             uri = URI.parse('http://127.0.0.1:5000/api/GetChargingProfile')
             req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
             req.body = tocall.to_json
-            puts req.body
+            # puts req.body
+            # return
             res = Net::HTTP.start(uri.hostname, uri.port) do |http|
                 http.request(req)
             end
