@@ -15,4 +15,5 @@
 //= require_tree .
 //= require Chart.min.js
 //= require bootstrap/dist/js/bootstrap.min.js
+//= require leaflet/dist/leaflet.js
 //= require overview.js

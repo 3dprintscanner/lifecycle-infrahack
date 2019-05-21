@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Owner:</strong>
+  <%= @journey.owner %>
+</p>
+
+<p>
+  <strong>Vehicle:</strong>
+  <%= @journey.vehicle %>
+</p>
+
+<p>
+  <strong>Origin:</strong>
+  <%= @journey.origin %>
+</p>
+
+<p>
+  <strong>Destination:</strong>
+  <%= @journey.destination %>
+</p>
+
+<%= link_to 'Edit', edit_journey_path(@journey) %> |
+<%= link_to 'Back', journeys_path %>

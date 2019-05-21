@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Journeys</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Owner</th>
+      <th>Vehicle</th>
+      <th>Origin</th>
+      <th>Destination</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @journeys.each do |journey| %>
+      <tr>
+        <td><%= journey.owner %></td>
+        <td><%= journey.vehicle %></td>
+        <td><%= journey.origin %></td>
+        <td><%= journey.destination %></td>
+        <td><%= link_to 'Show', journey %></td>
+        <td><%= link_to 'Edit', edit_journey_path(journey) %></td>
+        <td><%= link_to 'Destroy', journey, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Journey', new_journey_path %>

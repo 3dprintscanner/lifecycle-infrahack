@@ -7,7 +7,8 @@
 
 <p>
   <strong>Vehicle:</strong>
-  <%= @owner.vehicle %>
+  <%= @owner.vehicle.name %>
+  <%= link_to 'Vehicle', vehicle_path(@owner.vehicle) %>
 </p>
 
 <%= link_to 'Edit', edit_owner_path(@owner) %> |

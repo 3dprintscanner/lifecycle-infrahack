@@ -1,6 +1,6 @@
 class OwnersController < ApplicationController
   before_action :set_owner, only: [:show, :edit, :update, :destroy]
-
+  before_action :authenticate_owner!
   # GET /owners
   # GET /owners.json
   def index
@@ -10,6 +10,7 @@ class OwnersController < ApplicationController
   # GET /owners/1
   # GET /owners/1.json
   def show
+  
   end
 
   # GET /owners/new
@@ -69,6 +70,6 @@ class OwnersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def owner_params
-      params.require(:owner).permit(:name, :vehicle_id)
+      params.require(:owner).permit(:name, :vehicle_id, :email, :id)
     end
 end

@@ -59,7 +59,7 @@ var createLineChart2 = function(identifier, xAxis, values, values2, callback){
         data: {
             labels: xAxis,
             datasets: [{
-                label: 'Smart',
+                label: 'Dumb',
                 data: values,
                 borderColor: [
                     'rgba(255, 99, 132, 1)'
@@ -67,7 +67,7 @@ var createLineChart2 = function(identifier, xAxis, values, values2, callback){
                 borderWidth: 1
             },
             {
-                label: 'Dumb',
+                label: 'Smart',
                 data: values2,
                 borderColor: [
                     'rgba(54, 162, 235, 0.2)'

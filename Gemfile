@@ -30,6 +30,9 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem 'swagger-docs'
+
+gem 'devise'
+gem 'activeadmin'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

@@ -1,5 +1,8 @@
-<p id="notice"><%= notice %></p>
 
+
+<div class="container">
+  <p id="notice"><%= notice %></p>
+  <div id='map'></div>
 <p>
   <strong>Name:</strong>
   <%= @vehicle.name %>
@@ -7,7 +10,7 @@
 
 <p>
   <strong>Owner:</strong>
-  <%= @vehicle.owner %>
+  <%= @vehicle.owner.name %>
 </p>
 
 <p>
@@ -25,5 +28,37 @@
   <%= @vehicle.battery_capacity %>
 </p>
 
+<table class="table">
+  <thead>
+    <tr>
+      <th>Start</th>
+      <th>Destination</th>
+    </tr>
+  </thead>
+  <tbody>
+   <% @vehicle.journeys.each do |journey| %>
+    <tr>
+      <td scope="row"><%= journey.origin %></td>
+      <td scope="row"><%= journey.destination %></td>
+    </tr>
+    <% end%>
+  </tbody>
+</table>
+</div>
+<script>
+var lat = <%= @vehicle.latitude %>;
+var long = <%= @vehicle.longitude %>;
+var map = L.map('map').setView([lat, long], 13);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+L.marker([lat, long]).addTo(map)
+    .bindPopup('<%= @vehicle.name %>')
+    .openPopup();
+
+</script>
+<%= link_to 'Add Journey', new_journey_path(@vehicle) %>
 <%= link_to 'Edit', edit_vehicle_path(@vehicle) %> |
 <%= link_to 'Back', vehicles_path %>

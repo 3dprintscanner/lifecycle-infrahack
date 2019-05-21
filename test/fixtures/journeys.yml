@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  owner: one
+  vehicle: one
+  origin: MyString
+  destination: MyString
+
+two:
+  owner: two
+  vehicle: two
+  origin: MyString
+  destination: MyString

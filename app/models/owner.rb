@@ -1,3 +1,7 @@
 class Owner < ApplicationRecord
-  belongs_to :vehicle
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+  belongs_to :vehicle, optional: true
 end
