@@ -66,4 +66,82 @@ module Backend
             newBody
         end
 
+        def self.get_profile(start_time, end_time, current_owner)
+            # let's make a call to the backend so we can fetch some charging data for a particular car
+
+            allTimeStampsAndPredictions =
+            @stops = []
+            @maxrates = []
+            @maxDischargeRates = []
+            @maxCapacities = []
+            @initialCharges = []
+            @current_owner_journey = nil
+            @current_owner_journey_index = nil
+            Journey.all.each_with_index do |journey,index|
+            # Journey.select {|jny| jny.start_time >= start_time and jny.end_time <= end_time}.each_with_index do |journey,index|
+                if(journey.owner == current_owner and @current_owner_journey.nil?)
+                    @current_owner_journey = journey
+                    @current_owner_journey_index = index
+                end
+                
+                @stops << self.create_filled_series(journey.consumptions)
+                @maxrates << journey.vehicle.chargerate.to_i
+                @maxCapacities << journey.vehicle.battery_capacity.to_i
+                @maxDischargeRates << journey.vehicle.dischargerate.to_i
+                @initialCharges << journey.vehicle.current_charge.to_i
+            end
+
+            tocall = {
+                pricePredictions:  PricePrediction.first(20).map {|x| x.price.round},
+                demandPredictions: DemandPrediction.first(20).map {|x| x.value.round},
+                maxVehicleChargingRates: @maxrates,
+                maxVehicleDischargingRates: @maxDischargeRates,
+                maxVehicleChargeCapacities: @maxCapacities,
+                journeyInformation: @stops,
+                initialVehicleCharge: @initialCharges
+            }
+
+
+            uri = URI.parse('http://127.0.0.1:5000/api/GetChargingProfile')
+            req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+            req.body = tocall.to_json
+            puts req.body
+            newBody = nil
+            begin
+                res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+                    http.request(req)
+                end
+                newBody = JSON.parse(res.body)
+            rescue StandardError => e
+                # puts e
+            end
+            puts newBody
+            owner_profile =  newBody['dumbChargingProfiles'][@current_owner_journey_index]
+            cost = newBody['smartCost']
+            return {
+                charge_profile: owner_profile,
+                cost: cost
+            }
+
+        end
+
+        def self.create_filled_series(consumptions)
+            
+            size_of = consumptions.length
+
+            mapped = consumptions.map {|cons| cons.consumption}
+
+            (20 - size_of).times.each_with_index do |itm, idx|
+                if(idx % 3 == 0)
+                    mapped << 0
+                else
+                    mapped << rand(0..10)
+                end
+                
+            end
+
+            mapped
+
+        end
+
     end

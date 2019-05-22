@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :journeys
   
   get '/overview', to: 'overviews#index'
+  get '/charging', to: 'charging#show'
 
   root :controller => 'overviews', :action => 'index' 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190521124224) do
+ActiveRecord::Schema.define(version: 20190522101329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,8 @@ ActiveRecord::Schema.define(version: 20190521124224) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "journey_id"
+    t.decimal "lat"
+    t.decimal "lon"
     t.index ["journey_id"], name: "index_consumptions_on_journey_id"
     t.index ["vehicle_id"], name: "index_consumptions_on_vehicle_id"
   end
@@ -67,6 +69,10 @@ ActiveRecord::Schema.define(version: 20190521124224) do
     t.string "destination"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "originLat"
+    t.decimal "originLon"
+    t.decimal "destinationLat"
+    t.decimal "destinationLon"
     t.index ["owner_id"], name: "index_journeys_on_owner_id"
     t.index ["vehicle_id"], name: "index_journeys_on_vehicle_id"
   end
@@ -103,6 +109,11 @@ ActiveRecord::Schema.define(version: 20190521124224) do
     t.bigint "owner_id"
     t.decimal "latitude"
     t.decimal "longitude"
+    t.decimal "chargerate"
+    t.decimal "initialcharge"
+    t.decimal "dischargerate"
+    t.decimal "current_charge"
+    t.string "imageurl"
     t.index ["owner_id"], name: "index_vehicles_on_owner_id"
   end
 

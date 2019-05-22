@@ -18,19 +18,18 @@
                 </div>
             </div>
         </div>
+        <hr/>
         <div class="row">
-            <div class="col-xs-1-12">
+            <div class="col-md-3">
                 <div class="card">
                 <div class="card-body">
-                    <h3 class="card-title">Total KwH Saving Today</h3>
+                    <h3 class="card-title">Total Power Saving Today</h3>
                     <h1 class="card-text"><%= @apidata["smartSavings"].round(2).abs  %></p>
                 </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                
+            <div class="col-md-9">
+                <div id='map'></div>
             </div>
         </div>
     </div>
@@ -43,6 +42,7 @@ var configureHover = function(chart){
     totalCharge = data.yValue;
     chargeChart.update();
 }
+var carLocations = <%= raw @carLocations.to_json %>;
 var apiData = <%= raw @apidata.to_json%>;
 var charging = apiData.totalDumbDemand  ;
 var apiDemand = apiData.totalSmartDemand;
@@ -50,6 +50,7 @@ var savings = apiData.smartSavings;
 var data = <%= raw @data.to_json %>;
 var demandData = <%= raw @demand.to_json %>;
 var lifeCycleData = <%= raw @lifecycleConsumption.to_json %>;
+
 var lifeData = lifeCycleData.map(lf => lf.consumption);
 var dataPoints = data.map(dt => dt.consumption);
 var xAxis = data.map(dt => dt.time.substr(11,8)).filter((i,idx) => idx%2 == 0 );;
@@ -63,6 +64,16 @@ var demandChart;
 var chargeChart;
 createLineChart2('consumeChart', new Array(charging.length), charging, apiDemand, (chart) => consumeChart = chart, (data) => configureHover);
 createDoughnutChart('chargeChart', totalCharge,totalDemand, (chart) => chargeChart = chart);
+var mapped = carLocations.map(cl => [cl.lat, cl.lng, "210"]);
+var map = L.map('map').setView([mapped[0][0], mapped[0][1]], 9);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+
+var heat = L.heatLayer(mapped, {radius: 25}).addTo(map);
+
 
 </script>
 

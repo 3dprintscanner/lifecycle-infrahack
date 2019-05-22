@@ -8,6 +8,7 @@ class OverviewsController < ApplicationController
     @lifecycleConsumption = Consumption.all.map {|itm| { "consumption" => rand(itm.consumption-15..itm.consumption+15)}}
     @demand = DemandPrediction.all
     @apidata = Backend.call_backend_from_db
+    @carLocations = Vehicle.all.select{|veh| !veh.latitude.nil? and !veh.longitude.nil?}.map{|vehicle| {lat: vehicle.latitude.to_f, lng: vehicle.longitude.to_f}}
   end
 
   # GET /overviews/1
@@ -20,7 +21,7 @@ class OverviewsController < ApplicationController
     @overview = Overview.new
     
   end
-
+  
   # GET /overviews/1/edit
   def edit
   end

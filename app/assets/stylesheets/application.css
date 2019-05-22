@@ -15,4 +15,5 @@
  *= require bootstrap/scss/bootstrap.scss
  *= require leaflet/dist/leaflet.css
  *= require theme.scss
+ *= stub active_admin
  */

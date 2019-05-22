@@ -1,0 +1,81 @@
+<div class="container-fluid">
+    <h1> My Charging Profile</h1>
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="chart-container" style="position: relative; height:45%; width:95%">
+                <canvas id="chargeProfileChart"></canvas>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card text-left">
+              <%= link_to (image_tag current_owner.vehicle.imageurl, class: 'card-img-top'), vehicle_path(current_owner.vehicle) %>
+              <div class="card-body">
+                <h4 class="card-title">Override</h4>
+                <p class="card-text">Set Fully Charged by time</p>
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="require"></label>
+                        <input type="datetime-local" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                    </div>
+                </form>
+                <br/>
+                <button type="submit" class="btn btn-danger">Submit</button>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Total Charge</h4>
+                    <p class="card-text"><%= current_owner.vehicle.current_charge %></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Current Charge Rate</h4>
+                    <p class="card-text"><%= current_owner.vehicle.chargerate %></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Next Charge Time</h4>
+                    <p class="card-text"><%= @next_charge_time %></p>
+                </div>
+            </div>
+        </div>    
+    </div>
+</div>
+
+<script>
+    var ctx = document.getElementById("chargeProfileChart").getContext('2d');
+    var data = <%= raw @profile.to_json %>;
+    var date = new Date().getHours();
+    var chargeProfileChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data.charge_profile.map((prf, idx) => (date + idx) % 24),
+            datasets: [{
+                label: 'Time',
+                data: data.charge_profile.map(prf => (prf > 0 ? 1 : (prf < 0 ? -1 : 0) )),
+                borderColor: [
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }],
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks:{
+                            display: false
+                        }
+                    }]
+                }
+            }
+    }});
+</script>

@@ -16,4 +16,5 @@
 //= require Chart.min.js
 //= require bootstrap/dist/js/bootstrap.min.js
 //= require leaflet/dist/leaflet.js
+//= require leaflet.heat/dist/leaflet-heat.js
 //= require overview.js

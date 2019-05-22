@@ -12,7 +12,7 @@
   <nav class="navbar navbar-expand-sm navbar-light bg-light">
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
-    <a class="navbar-brand" href="#">LifeCycle</a>
+    <%= link_to 'LifeCycle', root_path, class: 'navbar-brand' %>
     <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
         aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -20,30 +20,19 @@
     <div class="collapse navbar-collapse" id="collapsibleNavId">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <%= link_to 'Network Overview', root_path, class: 'nav-link' %>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Charging</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Load</a>
-                <div class="dropdown-menu" aria-labelledby="dropdownId">
-                    <a class="dropdown-item" href="#">Action 1</a>
-                    <a class="dropdown-item" href="#">Action 2</a>
-                </div>
+                <%= link_to 'Charging', charging_path(current_owner), class: 'nav-link' %>
             </li>
         </ul>
         <% if current_owner %>
-          <%= link_to "My Account", owner_path(current_owner[:id])%>
-          <%= link_to "Sign out", destroy_owner_session_path, :method => :delete %>
+          <%= link_to "My Account ", owner_path(current_owner[:id]),class: 'nav-link' %>
+          <%= link_to "Sign out", destroy_owner_session_path, :method => :delete, class: 'btn btn-outline' %>
         <%else %>
           <%= link_to "Sign up", new_owner_registration_path, class: "btn btn-outline"%>
           <%= link_to "Sign in", new_owner_session_path, class: "btn btn-outline"%>
         <% end%>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
     </div>
 </nav>
     <%= yield %>

@@ -27,12 +27,13 @@
   <strong>Battery capacity:</strong>
   <%= @vehicle.battery_capacity %>
 </p>
-
+<h2>My Recent Journeys</h2>
 <table class="table">
   <thead>
     <tr>
       <th>Start</th>
       <th>Destination</th>
+      <th>Details</th>
     </tr>
   </thead>
   <tbody>
@@ -40,6 +41,7 @@
     <tr>
       <td scope="row"><%= journey.origin %></td>
       <td scope="row"><%= journey.destination %></td>
+      <td scope="row"><%= link_to 'Show', journey %></td>
     </tr>
     <% end%>
   </tbody>
@@ -49,7 +51,8 @@
 var lat = <%= @vehicle.latitude %>;
 var long = <%= @vehicle.longitude %>;
 var map = L.map('map').setView([lat, long], 13);
-
+var latlngs =  <%= @vehicle.journeys.map {|jny| jny.consumptions.map {|cns| [cns.lat.to_f.round(3), cns.lon.to_f.round(3)]}} %>
+var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
