@@ -64,7 +64,7 @@ module Backend
             end
             newBody = JSON.parse(res.body)
             puts newBody
-            File.open('demand.txt', 'w') { |file| file.write(newBody) }
+            # File.open('demand.txt', 'w') { |file| file.write(newBody) }
             newBody
         end
 
@@ -157,6 +157,9 @@ module Backend
                 journeyInformation: @stops,
                 initialVehicleCharge: @initialCharges
             }
+
+            File.open('jsonrequest.json', 'w') { |file| file.write(tocall.to_json) }
+
 
             return tocall, @current_owner_journey_index || 0
         end
